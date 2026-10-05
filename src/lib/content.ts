@@ -8,12 +8,10 @@ export const profile = {
 	role: 'Software Engineering Student',
 	location: 'Edo State, Nigeria',
 	lede: 'I am 18, studying software engineering with one foot in mechanical engineering — learning to build from atoms to interfaces, and documenting every step in public.',
-	email: 'hello@example.com',
+	email: 'goldalfred73@gmail.com',
 	socials: [
-		{ label: 'GitHub', href: 'https://github.com/' },
-		{ label: 'X', href: 'https://x.com/' },
-		{ label: 'LinkedIn', href: 'https://linkedin.com/' },
-		{ label: 'Read.cv', href: 'https://read.cv/' }
+		{ label: 'GitHub', href: 'https://github.com/goldalfred73-svg' },
+		{ label: 'Email', href: 'mailto:goldalfred73@gmail.com' }
 	]
 };
 
