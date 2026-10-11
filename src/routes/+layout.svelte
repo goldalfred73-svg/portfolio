@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { profile } from '$lib/content';
 	import { unlock, tick, thock, whoosh, chime, setMuted, isMuted } from '$lib/sound';
+	import Chat from '$lib/Chat.svelte';
 
 	let { children } = $props();
 	let soundOn = $state(true);
@@ -38,6 +39,9 @@
 		};
 		const onClick = (e: MouseEvent) => {
 			const t = e.target as HTMLElement;
+			// The concierge plays its own sounds; this would double-fire on every
+			// chip/send/suggestion press.
+			if (t.closest('.chat-panel, .chat-fab')) return;
 			if (t.closest('button, .btn')) thock();
 		};
 		const onChime = (e: MouseEvent) => {
@@ -163,3 +167,5 @@
 <main id="top">
 	{@render children()}
 </main>
+
+<Chat />
