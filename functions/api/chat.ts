@@ -9,8 +9,19 @@
  * This edge function is the server boundary that keeps `GROQ_API_KEY` off the
  * client. It coexists with the static output — no change to adapter-static.
  *
+ * ── Running it locally ───────────────────────────────────────────────────────
+ * `pnpm dev` (vite) serves only `src/routes`, so `/api/chat` 404s locally.
+ * Pages Functions need the Pages dev server, not vite:
+ *
+ *   npx wrangler pages dev . --port 8788
+ *
+ * wrangler builds and serves this function itself, so the panel is fully live
+ * at http://localhost:8788 without deploying. `pnpm dev` alone will show the
+ * concierge rendering correctly but every answer will be the offline message —
+ * that's expected, not a bug.
+ *
  * The key is read from the environment at request time:
- *   - local dev:  .env (gitignored)
+ *   - local:  .env (gitignored) — wrangler pages dev loads it
  *   - production: Cloudflare Pages -> Settings -> Environment variables
  *
  * Rate limiting runs in two layers. The in-memory limiter below needs no config
@@ -124,9 +135,10 @@ function sweep(now: number): void {
  * Identify the caller.
  *
  * `CF-Connecting-IP` is set by Cloudflare and cannot be forged by the client.
- * Locally (no proxy in front) that header is absent, so fall back to a constant —
- * which makes every local request share one bucket. That's fine for dev: the point
- * is to not silently disable the limiter when the header is missing.
+ * Wrangler's dev server sets it too, so local runs exercise the same code path.
+ * If it's somehow absent, fall back to a constant — which makes every request
+ * share one bucket. That's fine: the point is to not silently disable the
+ * limiter when the header is missing.
  */
 function clientKey(request: Request): string {
 	return (
@@ -136,22 +148,29 @@ function clientKey(request: Request): string {
 	);
 }
 
-/** Fixed-window check. Returns remaining budget + seconds until reset, or null if blocked. */
-function checkRateLimit(key: string, now: number): { remaining: number; retryAfter: number } | null {
+/**
+ * Fixed-window check.
+ *
+ * NOTE the return shape: a budget object is returned on BOTH paths. Success is
+ * signalled by `remaining > 0`; a block is `remaining === 0` plus `retryAfter > 0`.
+ * There is deliberately no `null` case — a caller that forgets to test `remaining`
+ * would otherwise read a 429 as success. Keep that invariant.
+ */
+function checkRateLimit(key: string, now: number): { remaining: number; retryAfter: number; blocked: boolean } {
 	sweep(now);
 	const existing = buckets.get(key);
 
 	if (!existing || existing.resetAt <= now) {
 		buckets.set(key, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
-		return { remaining: RATE_LIMIT_MAX - 1, retryAfter: 0 };
+		return { remaining: RATE_LIMIT_MAX - 1, retryAfter: 0, blocked: false };
 	}
 
 	if (existing.count >= RATE_LIMIT_MAX) {
-		return { remaining: 0, retryAfter: Math.ceil((existing.resetAt - now) / 1000) };
+		return { remaining: 0, retryAfter: Math.ceil((existing.resetAt - now) / 1000), blocked: true };
 	}
 
 	existing.count += 1;
-	return { remaining: RATE_LIMIT_MAX - existing.count, retryAfter: 0 };
+	return { remaining: RATE_LIMIT_MAX - existing.count, retryAfter: 0, blocked: false };
 }
 
 /** Headers describing the caller's current budget, on every response. */
@@ -187,13 +206,11 @@ export const onRequestPost: PagesFunction<Bindings> = async ({ request, env }) =
 	// Layer 1: always enforced, needs no configuration.
 	const now = Date.now();
 	const budget = checkRateLimit(key, now);
-	if (!budget) {
-		const blocked = buckets.get(key);
-		const retryAfter = blocked ? Math.ceil((blocked.resetAt - now) / 1000) : RATE_LIMIT_WINDOW_MS / 1000;
+	if (budget.blocked) {
 		return json(
 			{ error: 'Too many questions. Give it a moment, then try again.' },
 			429,
-			{ 'Retry-After': String(retryAfter), 'X-RateLimit-Limit': String(RATE_LIMIT_MAX), 'X-RateLimit-Remaining': '0' }
+			{ 'Retry-After': String(budget.retryAfter), 'X-RateLimit-Limit': String(RATE_LIMIT_MAX), 'X-RateLimit-Remaining': '0' }
 		);
 	}
 	const limitHeaders = rateHeaders(budget.remaining, budget.retryAfter);
