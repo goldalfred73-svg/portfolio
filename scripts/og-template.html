@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<style>
+			/* Rendered to a 1200x630 OG image via headless Chrome.
+			   Matches src/app.css tokens so the card matches the site. */
+			:root {
+				--paper: #f5f0e4;
+				--ink: #16120b;
+				--ink-soft: #4a4436;
+				--gold: #a37f2c;
+				--gold-bright: #c9a35f;
+				--emerald: #1e4d3f;
+				--serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+				--sans: 'Inter', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+			}
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			body {
+				width: 1200px;
+				height: 630px;
+				background: var(--paper);
+				color: var(--ink);
+				font-family: var(--sans);
+				display: grid;
+				place-items: center;
+				position: relative;
+				overflow: hidden;
+			}
+			.grain {
+				position: absolute;
+				inset: 0;
+				opacity: 0.05;
+				background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+			}
+			.wash {
+				position: absolute;
+				width: 900px;
+				height: 900px;
+				right: -220px;
+				top: -320px;
+				background: radial-gradient(
+					circle,
+					color-mix(in srgb, var(--gold-bright) 26%, transparent),
+					transparent 62%
+				);
+			}
+			.card {
+				position: relative;
+				width: 960px;
+				padding: 0 40px;
+			}
+			.kicker {
+				display: flex;
+				align-items: center;
+				gap: 18px;
+				font-size: 17px;
+				letter-spacing: 0.3em;
+				text-transform: uppercase;
+				color: var(--gold);
+				margin-bottom: 30px;
+			}
+			.kicker::after {
+				content: '';
+				flex: 1;
+				height: 1px;
+				background: color-mix(in srgb, var(--ink) 16%, transparent);
+			}
+			h1 {
+				font-family: var(--serif);
+				font-weight: 500;
+				font-size: 92px;
+				line-height: 1.02;
+				letter-spacing: -0.015em;
+				margin-bottom: 28px;
+			}
+			h1 em {
+				font-style: italic;
+				color: var(--gold);
+			}
+			.sub {
+				font-size: 28px;
+				line-height: 1.5;
+				color: var(--ink-soft);
+				max-width: 780px;
+				margin-bottom: 44px;
+			}
+			.foot {
+				display: flex;
+				align-items: center;
+				gap: 20px;
+			}
+			.monogram {
+				width: 62px;
+				height: 62px;
+				border-radius: 50%;
+				background: var(--ink);
+				color: var(--gold-bright);
+				display: grid;
+				place-items: center;
+				font-size: 25px;
+			}
+			.who {
+				font-family: var(--serif);
+				font-size: 30px;
+			}
+			.who span {
+				display: block;
+				font-family: var(--sans);
+				font-size: 16px;
+				letter-spacing: 0.2em;
+				text-transform: uppercase;
+				color: var(--stone, #6f6653);
+				margin-top: 5px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="grain"></div>
+		<div class="wash"></div>
+		<div class="card">
+			<p class="kicker">Portfolio</p>
+			<h1>From atoms<br />to <em>interfaces.</em></h1>
+			<p class="sub">
+				Software engineering student building web interfaces, design systems, and mechanical
+				intuition — documented in public.
+			</p>
+			<div class="foot">
+				<div class="monogram">OG</div>
+				<p class="who">
+					Ojo Gold
+					<span>Software Engineering Student · Nigeria</span>
+				</p>
+			</div>
+		</div>
+	</body>
+</html>

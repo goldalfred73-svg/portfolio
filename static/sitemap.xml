@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Hand-maintained because the site is fully static: adapter-static emits exactly
+	the routes below, and SvelteKit has no built-in sitemap generator for that case.
+	Keep in sync with src/lib/posts.ts — adding a post means adding a <url> here.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	<url>
+		<loc>https://ojo-gold-portfolio.pages.dev/</loc>
+		<changefreq>weekly</changefreq>
+		<priority>1.0</priority>
+	</url>
+	<url>
+		<loc>https://ojo-gold-portfolio.pages.dev/blog</loc>
+		<changefreq>weekly</changefreq>
+		<priority>0.8</priority>
+	</url>
+	<url>
+		<loc>https://ojo-gold-portfolio.pages.dev/blog/building-a-website-with-ai-in-2026</loc>
+		<lastmod>2026-10-11</lastmod>
+		<changefreq>monthly</changefreq>
+		<priority>0.7</priority>
+	</url>
+	<url>
+		<loc>https://ojo-gold-portfolio.pages.dev/blog/static-sites-and-the-secret-that-wasnt</loc>
+		<lastmod>2026-10-09</lastmod>
+		<changefreq>monthly</changefreq>
+		<priority>0.7</priority>
+	</url>
+	<url>
+		<loc>https://ojo-gold-portfolio.pages.dev/blog/seo-in-the-age-of-ai-answers</loc>
+		<lastmod>2026-10-06</lastmod>
+		<changefreq>monthly</changefreq>
+		<priority>0.7</priority>
+	</url>
+</urlset>

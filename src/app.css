@@ -590,6 +590,64 @@ nav.main a:hover::after {
 	color: var(--ink);
 }
 
+/* ── notes teaser (home) ── */
+.post-teaser {
+	display: block;
+	text-decoration: none;
+	color: inherit;
+	border: 1px solid var(--hairline);
+	border-radius: 1.1rem;
+	padding: clamp(1.5rem, 3.6vw, 2.6rem);
+	background: color-mix(in srgb, #fffdf6 55%, var(--paper));
+	transition:
+		transform 0.45s var(--ease-out),
+		border-color 0.45s,
+		box-shadow 0.45s var(--ease-out);
+}
+.post-teaser:hover {
+	transform: translateY(-5px);
+	border-color: color-mix(in srgb, var(--gold) 55%, transparent);
+	box-shadow: 0 30px 60px -30px color-mix(in srgb, var(--ink) 35%, transparent);
+}
+.post-teaser .kind {
+	font-size: 0.78rem;
+	letter-spacing: 0.22em;
+	text-transform: uppercase;
+	color: var(--gold);
+}
+.post-teaser h3 {
+	font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+	margin: 0.8rem 0 0.9rem;
+	max-width: 24ch;
+}
+.post-teaser p {
+	margin: 0 0 1.4rem;
+	color: var(--ink-soft);
+	max-width: 58ch;
+	line-height: 1.65;
+}
+.post-teaser .cta-line {
+	font-size: 0.82rem;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--ink);
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+.post-teaser:hover .cta-line {
+	color: var(--gold);
+}
+.post-teaser .cta-line span {
+	transition: transform 0.35s var(--ease-out);
+}
+.post-teaser:hover .cta-line span {
+	transform: translate(3px, -3px);
+}
+.notes-foot {
+	margin-top: 1.6rem;
+}
+
 /* ── footer ── */
 footer.site {
 	border-top: 1px solid var(--hairline);

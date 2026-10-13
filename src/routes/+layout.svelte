@@ -119,9 +119,9 @@
 </script>
 
 <svelte:head>
-	<title>{profile.name} — {profile.role}</title>
-	<meta name="description" content={profile.lede} />
 	<meta name="theme-color" content="#f5f0e4" />
+	<meta name="author" content={profile.name} />
+	<meta name="robots" content="index, follow, max-image-preview:large" />
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
 	<link
@@ -152,10 +152,11 @@
 			<span>{profile.name}</span>
 		</a>
 		<nav class="main" aria-label="Sections">
-			<a href="#work">Work</a>
-			<a href="#practice">Practice</a>
-			<a href="#about">About</a>
-			<a href="#contact">Contact</a>
+			<a href="/#work">Work</a>
+			<a href="/#practice">Practice</a>
+			<a href="/#about">About</a>
+			<a href="/blog">Notes</a>
+			<a href="/#contact">Contact</a>
 		</nav>
 		<button class="sound-btn" class:on={soundOn} onclick={toggleSound} aria-pressed={soundOn}>
 			<span class="eq" aria-hidden="true"><i></i><i></i><i></i></span>

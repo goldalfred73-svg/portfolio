@@ -1,3 +1,10 @@
-# allow crawling everything by default
+# Ojo Gold — portfolio. Crawling is welcome; this is public work.
 User-agent: *
-Disallow:
+Allow: /
+
+# Nothing private lives here, but keep crawlers out of these paths.
+Disallow: /api/
+Disallow: /build/
+Disallow: /.svelte-kit/
+
+Sitemap: https://ojo-gold-portfolio.pages.dev/sitemap.xml

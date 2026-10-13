@@ -1,7 +1,37 @@
 <script lang="ts">
 	import { profile, projects, services, about, colophon } from '$lib/content';
 	import { reveal, magnetic } from '$lib/motion';
+	import { headTags, personSchema, jsonLdScript, canonical } from '$lib/seo';
+	import { posts, readingTime } from '$lib/posts';
+
+	const meta = headTags({
+		title: profile.name,
+		description: profile.lede,
+		path: '/',
+		keywords: ['software engineer', 'web developer', 'SvelteKit', 'Nigeria', 'portfolio'],
+	});
+
+	const schema = jsonLdScript({
+		'@context': 'https://schema.org',
+		'@graph': [
+			personSchema(),
+			{
+				'@type': 'WebSite',
+				name: profile.name,
+				url: canonical('/'),
+				inLanguage: 'en',
+				author: { '@type': 'Person', name: profile.name },
+			},
+		],
+	});
+
+	const latest = posts[0];
 </script>
+
+<svelte:head>
+	{@html meta.tags.join('\n\t')}
+	{@html schema}
+</svelte:head>
 
 <!-- ══ HERO ══ -->
 <section class="hero wrap" use:reveal>
@@ -16,6 +46,7 @@
 			Say hello <span class="arrow" aria-hidden="true">→</span>
 		</a>
 	</div>
+
 	<div class="hero-meta" data-cascade>
 		<span><strong>Currently</strong> — studying & building in public</span>
 		<span><strong>Based</strong> — {profile.location}</span>
@@ -43,6 +74,22 @@
 				<span class="go" aria-hidden="true">↗</span>
 			</a>
 		{/each}
+	</div>
+</section>
+
+<!-- ══ NOTES — latest post, a route into the blog ══ -->
+<section id="notes" class="wrap" use:reveal>
+	<p class="kicker" data-cascade><span class="n">04</span> Notes</p>
+	<h2 data-cascade>Writing about the <em>build.</em></h2>
+	<div style="height: 2.5rem"></div>
+	<a class="post-teaser" href={`/blog/${latest.slug}`} data-cascade>
+		<span class="kind">{latest.kind} · {readingTime(latest)} min read</span>
+		<h3>{latest.title}</h3>
+		<p>{latest.dek}</p>
+		<span class="cta-line">Read the note <span aria-hidden="true">↗</span></span>
+	</a>
+	<div class="notes-foot" data-cascade>
+		<a class="btn ghost" href="/blog">All notes <span class="arrow" aria-hidden="true">→</span></a>
 	</div>
 </section>
 
