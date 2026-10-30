@@ -93,6 +93,29 @@
 	</div>
 </section>
 
+<!-- ══ INTERLUDE ══ -->
+<section class="interlude" use:reveal aria-labelledby="interlude-title">
+	<div class="wrap interlude-grid">
+		<div class="interlude-copy">
+			<p class="kicker" data-cascade><span class="n">—</span> Interlude</p>
+			<h2 id="interlude-title" data-cascade>Quiet hours <em>compound.</em></h2>
+			<p class="interlude-note" data-cascade>
+				No audience, no clock — just the work and the patience to keep at it. That is where the
+				results are actually made.
+			</p>
+		</div>
+		<figure class="plate" data-cascade>
+			<img
+				src="/img/goals.jpeg"
+				alt="A man resting his head on a basketball on a bench, under the words Just you + GOALS."
+				width="820"
+				height="1093"
+				loading="lazy"
+			/>
+		</figure>
+	</div>
+</section>
+
 <!-- ══ PRACTICE — the dark chapter ══ -->
 <section id="practice" class="wrap" use:reveal>
 	<div class="chapter-dark wrap" style="padding: clamp(2rem, 5vw, 4rem);">
